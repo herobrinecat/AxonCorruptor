@@ -1,10 +1,10 @@
 # AxonCorruptor
 
-# Introduction
+## Introduction
 
 Axon Corruptor is a file corruptor that's purpose is to corrupt files... This application is open-source, so feel free to make pull requests! You could also clone it to change it to support other emulator/engines/features!
 
-# Building
+## Building
 
 Building this application requires:
 
