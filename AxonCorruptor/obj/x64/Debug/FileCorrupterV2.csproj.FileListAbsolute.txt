@@ -1,0 +1,14 @@
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\bin\x64\Debug\FileCorrupterV2.exe.config
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\bin\x64\Debug\FileCorrupterV2.exe
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\bin\x64\Debug\FileCorrupterV2.pdb
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.csproj.AssemblyReference.cache
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.Form1.resources
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.NumberEngine.resources
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.NightmareEngine.resources
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.Properties.Resources.resources
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.Warning.resources
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.csproj.GenerateResource.cache
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.csproj.CoreCompileInputs.cache
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.exe
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.pdb
+C:\Users\NOAA\source\repos\FileCorrupterV2\FileCorrupterV2\obj\x64\Debug\FileCorrupterV2.ChunkEngine.resources
