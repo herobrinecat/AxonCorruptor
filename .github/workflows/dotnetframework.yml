@@ -29,3 +29,10 @@ jobs:
 
     - name: Build solution
       run: msbuild AxonCorruptor.sln -t:rebuild -property:Configuration=Release -property:Platform=x64
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+          name: bin-folder
+          path: |
+              AxonCorruptor/bin/x64/Release
