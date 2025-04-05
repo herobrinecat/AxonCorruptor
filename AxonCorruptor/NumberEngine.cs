@@ -24,19 +24,30 @@ namespace AxonCorruptor
         {
 
         }
-        public void Corrupt(int intensity, List<string> filenames)
+        public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
             Thread thread = new Thread(() =>
             {
-                Int32 length = filenames.Count();
-                for (int i = 0; i < length; i++)
+                try
                 {
-                    string content = File.ReadAllText(filenames[i]);
-                    for (int j = 0; j < intensity; j++)
+                    Int32 length = filenames.Count();
+                    for (int i = 0; i < length; i++)
                     {
-                        content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
+                        string content = File.ReadAllText(filenames[i]);
+                        for (int j = 0; j < intensity; j++)
+                        {
+                            content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
+                        }
+                        File.WriteAllText(filenames[i], content);
                     }
-                    File.WriteAllText(filenames[i], content);
+                }
+                catch (Exception ex) 
+                {
+                    new ErrorForm(ex).ShowDialog();
+                    if (main != null) 
+                    {
+                        main.error = true;
+                    }
                 }
             });
             thread.TrySetApartmentState(ApartmentState.STA);

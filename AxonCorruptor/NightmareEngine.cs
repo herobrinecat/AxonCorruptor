@@ -25,40 +25,64 @@ namespace AxonCorruptor
         {
 
         }
-        public void Corrupt(int intensity, List<string> filenames)
+        public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
             int currentType = 0;
             currentType = comboBox1.SelectedIndex;
             Thread thread = new Thread(() =>
             {
-                Int32 length = filenames.Count;
-                for (int i = 0; i < length; i++)
+                try
                 {
-                    FileStream file = File.Open(filenames[i], FileMode.Open);
-                    if (currentType == 0)
+                    Int32 length = filenames.Count;
+                    for (int i = 0; i < length; i++)
                     {
-                        for (int j = 0; j < intensity; j++)
+                        FileStream file = File.Open(filenames[i], FileMode.Open);
+                        if (currentType == 0)
                         {
-                            file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
-                            file.WriteByte(Convert.ToByte(RandomNumber((long)numericUpDown1.Value, (long)numericUpDown2.Value)));
-                        }
-                       
-                    }
-                    else if (currentType == 1)
-                    {
-                        for (int j = 0; j < intensity; j++)
-                        {
-                            if (RandomNumber(0, 1) == 0)
+                            for (int j = 0; j < intensity; j++)
                             {
                                 file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
                                 file.WriteByte(Convert.ToByte(RandomNumber((long)numericUpDown1.Value, (long)numericUpDown2.Value)));
                             }
-                            else
+
+                        }
+                        else if (currentType == 1)
+                        {
+                            for (int j = 0; j < intensity; j++)
+                            {
+                                if (RandomNumber(0, 1) == 0)
+                                {
+                                    file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
+                                    file.WriteByte(Convert.ToByte(RandomNumber((long)numericUpDown1.Value, (long)numericUpDown2.Value)));
+                                }
+                                else
+                                {
+                                    byte[] buffer = new byte[1];
+                                    file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
+                                    file.Read(buffer, 0, 1);
+                                    if (RandomNumber(0, 1) == 0)
+                                    {
+                                        buffer[0] = (byte)(buffer[0] + 0x01);
+                                    }
+                                    else
+                                    {
+                                        buffer[0] = (byte)(buffer[0] - 0x01);
+                                    }
+                                    file.Position = file.Position - 1;
+                                    file.WriteByte(buffer[0]);
+                                    buffer = null;
+                                }
+                            }
+
+                        }
+                        else if (currentType == 2)
+                        {
+                            for (int j = 0; j < intensity; j++)
                             {
                                 byte[] buffer = new byte[1];
                                 file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
                                 file.Read(buffer, 0, 1);
-                                if (RandomNumber(0,1) == 0)
+                                if (RandomNumber(0, 1) == 0)
                                 {
                                     buffer[0] = (byte)(buffer[0] + 0x01);
                                 }
@@ -66,38 +90,26 @@ namespace AxonCorruptor
                                 {
                                     buffer[0] = (byte)(buffer[0] - 0x01);
                                 }
-                                    file.Position = file.Position - 1;
+                                file.Position = file.Position - 1;
                                 file.WriteByte(buffer[0]);
                                 buffer = null;
                             }
-                        }
-                      
-                    }
-                    else if (currentType == 2)
-                    {
-                        for (int j = 0; j < intensity; j++)
-                        {
-                            byte[] buffer = new byte[1];
-                            file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
-                            file.Read(buffer, 0, 1);
-                            if (RandomNumber(0, 1) == 0)
-                            {
-                                buffer[0] = (byte)(buffer[0] + 0x01);
-                            }
-                            else
-                            {
-                                buffer[0] = (byte)(buffer[0] - 0x01);
-                            }
-                            file.Position = file.Position - 1;
-                            file.WriteByte(buffer[0]);
-                            buffer = null;
-                        }
-                        
-                    }
 
-                    file.Flush();
-                    file.Close();
-                    file.Dispose();
+                        }
+
+                        file.Flush();
+                        file.Close();
+                        file.Dispose();
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    new ErrorForm(ex).ShowDialog();
+                    if (main != null)
+                    {
+                        //since the function only happens in thread and not in main, we have to somehow get it to trigger the condition in main
+                        main.error = true;
+                    }
                 }
             });
             thread.TrySetApartmentState(ApartmentState.STA);

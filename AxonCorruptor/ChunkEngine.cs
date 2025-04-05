@@ -24,27 +24,38 @@ namespace AxonCorruptor
         {
 
         }
-        public void Corrupt(int intensity, List<string> filenames)
+        public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
             Thread thread = new Thread(() =>
             {
-                Int32 length = filenames.Count;
-                for (int i = 0; i < length; i++)
+               try
                 {
-                    byte[] buffer;
-                    FileStream file = File.Open(filenames[i], FileMode.Open);
-                    for (int j = 0; j < intensity; j++)
+                    Int32 length = filenames.Count;
+                    for (int i = 0; i < length; i++)
                     {
-                        buffer = new byte[(long)numericUpDown1.Value];
-                        file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
-                        file.Read(buffer, 0, (int)numericUpDown1.Value);
-                        file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
-                        OverwriteBytesinFile(buffer, file);
+                        byte[] buffer;
+                        FileStream file = File.Open(filenames[i], FileMode.Open);
+                        for (int j = 0; j < intensity; j++)
+                        {
+                            buffer = new byte[(long)numericUpDown1.Value];
+                            file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
+                            file.Read(buffer, 0, (int)numericUpDown1.Value);
+                            file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
+                            OverwriteBytesinFile(buffer, file);
+                        }
+                        file.Flush();
+                        file.Close();
+                        file.Dispose();
+                        buffer = null;
                     }
-                    file.Flush();
-                    file.Close();
-                    file.Dispose();
-                    buffer = null;
+                }
+                catch (Exception ex) 
+                {
+                    new ErrorForm(ex).ShowDialog();
+                    if (main != null)
+                    {
+                        main.error = true;
+                    }
                 }
             });
             thread.TrySetApartmentState(ApartmentState.STA);
