@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace AxonCorruptor
 {
@@ -24,6 +25,7 @@ namespace AxonCorruptor
         public bool error = false;
         private void Form1_Load(object sender, EventArgs e)
         {
+            listBox1.AllowDrop = true;
             if (Properties.Settings.Default.WarningRead == false)
             {
                 new Warning().ShowDialog();
@@ -285,13 +287,14 @@ namespace AxonCorruptor
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK) 
             {
+                int listboxcount = listBox1.Items.Count;
                 for (int i = 0; i < openFileDialog1.FileNames.Count(); i++) 
                 {
                     button7.Visible = true;
                     listBox1.Items.Add(openFileDialog1.FileNames[i]);
                     data.Add(File.ReadAllBytes(openFileDialog1.FileNames[i]));
                     filenames.Add(openFileDialog1.FileNames[i]);
-                    listBox1.SetSelected(i, true);
+                    listBox1.SetSelected(i + listboxcount, true);
                 }
             }
         }
@@ -426,6 +429,27 @@ namespace AxonCorruptor
                 data.Clear();
                 button7.Visible = false;
             }
+        }
+
+        private void listBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            int listboxcount = listBox1.Items.Count;
+            for (int i = 0; i < files.Length; i++)
+            {
+                
+                button7.Visible = true;
+                listBox1.Items.Add(files[i]);
+                data.Add(File.ReadAllBytes(files[i]));
+                filenames.Add(files[i]);
+                listBox1.SetSelected(i + listboxcount, true);
+            }
+
+        }
+
+        private void listBox1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
     }
 }
