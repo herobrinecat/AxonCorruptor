@@ -60,163 +60,170 @@ namespace AxonCorruptor
 
         private void button1_Click(object sender, EventArgs e)
         {
-              try
+      if (filenames.Count > 0)
             {
-                if (corrupted == true)
+                try
                 {
-                    if (EngineForm.Controls[0] is NightmareEngine)
+                    if (corrupted == true)
                     {
-                        List<string> selecteddata = new List<string>();
-                        for (int i = 0; i < listBox1.Items.Count; i++)
+                        if (EngineForm.Controls[0] is NightmareEngine)
                         {
-                            if (listBox1.GetSelected(i) == true)
+                            List<string> selecteddata = new List<string>();
+                            for (int i = 0; i < listBox1.Items.Count; i++)
                             {
-                                selecteddata.Add(filenames[i]);
+                                if (listBox1.GetSelected(i) == true)
+                                {
+                                    selecteddata.Add(filenames[i]);
+                                }
                             }
+                            button1.Visible = false;
+                            for (int i = 0; i < filenames.Count; i++)
+                            {
+                                FileStream file = File.Open(filenames[i], FileMode.Open);
+                                file.Write(data[i], 0, data[i].Length);
+                                file.Flush();
+                                file.Close();
+                                file.Dispose();
+                            }
+                        (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                            button1.Visible = true;
+                            button6.Visible = true;
+                            button5.Visible = true;
+                            corrupted = true;
+                            selecteddata.Clear();
                         }
-                        button1.Visible = false;
-                        for (int i = 0; i < filenames.Count; i++)
+                        else if (EngineForm.Controls[0] is NumberEngine)
                         {
-                            FileStream file = File.Open(filenames[i], FileMode.Open);
-                            file.Write(data[i], 0, data[i].Length);
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
+                            List<string> selecteddata = new List<string>();
+                            for (int i = 0; i < listBox1.Items.Count; i++)
+                            {
+                                if (listBox1.GetSelected(i) == true)
+                                {
+                                    selecteddata.Add(filenames[i]);
+                                }
+                            }
+                            button1.Visible = false;
+                            for (int i = 0; i < filenames.Count; i++)
+                            {
+                                FileStream file = File.Open(filenames[i], FileMode.Open);
+                                file.Write(data[i], 0, data[i].Length);
+                                file.Flush();
+                                file.Close();
+                                file.Dispose();
+                            }
+                            (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                            button1.Visible = true;
+                            button6.Visible = true;
+                            button5.Visible = true;
+                            corrupted = true;
+                            selecteddata.Clear();
                         }
-                    (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
-                        button1.Visible = true;
-                        button6.Visible = true;
-                        button5.Visible = true;
-                        corrupted = true;
-                        selecteddata.Clear();
+                        else if (EngineForm.Controls[0] is ChunkEngine)
+                        {
+                            List<string> selecteddata = new List<string>();
+                            for (int i = 0; i < listBox1.Items.Count; i++)
+                            {
+                                if (listBox1.GetSelected(i) == true)
+                                {
+                                    selecteddata.Add(filenames[i]);
+                                }
+                            }
+                            button1.Visible = false;
+                            for (int i = 0; i < filenames.Count; i++)
+                            {
+                                FileStream file = File.Open(filenames[i], FileMode.Open);
+                                file.Write(data[i], 0, data[i].Length);
+                                file.Flush();
+                                file.Close();
+                                file.Dispose();
+                            }
+                        (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                            button1.Visible = true;
+                            button6.Visible = true;
+                            button5.Visible = true;
+                            corrupted = true;
+                            selecteddata.Clear();
+                        }
                     }
-                    else if (EngineForm.Controls[0] is NumberEngine)
+                    else
                     {
-                        List<string> selecteddata = new List<string>();
-                        for (int i = 0; i < listBox1.Items.Count; i++)
+                        if (EngineForm.Controls[0] is NightmareEngine)
                         {
-                            if (listBox1.GetSelected(i) == true)
+                            List<string> selecteddata = new List<string>();
+                            for (int i = 0; i < listBox1.Items.Count; i++)
                             {
-                                selecteddata.Add(filenames[i]);
+                                if (listBox1.GetSelected(i) == true)
+                                {
+                                    selecteddata.Add(filenames[i]);
+                                }
                             }
-                        }
-                        button1.Visible = false;
-                        for (int i = 0; i < filenames.Count; i++)
-                        {
-                            FileStream file = File.Open(filenames[i], FileMode.Open);
-                            file.Write(data[i], 0, data[i].Length);
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
-                        }
-                        (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
-                        button1.Visible = true;
-                        button6.Visible = true;
-                        button5.Visible = true;
-                        corrupted = true;
-                        selecteddata.Clear();
-                    }
-                    else if (EngineForm.Controls[0] is ChunkEngine)
-                    {
-                        List<string> selecteddata = new List<string>();
-                        for (int i = 0; i < listBox1.Items.Count; i++)
-                        {
-                            if (listBox1.GetSelected(i) == true)
+                            button1.Visible = false;
+                            (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata, this);
+                            button1.Visible = true;
+                            if (error == false)
                             {
-                                selecteddata.Add(filenames[i]);
+                                button6.Visible = true;
+                                button5.Visible = true;
+                                corrupted = true;
                             }
+                            error = false;
+                            selecteddata.Clear();
                         }
-                        button1.Visible = false;
-                        for (int i = 0; i < filenames.Count; i++)
+                        else if (EngineForm.Controls[0] is NumberEngine)
                         {
-                            FileStream file = File.Open(filenames[i], FileMode.Open);
-                            file.Write(data[i], 0, data[i].Length);
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
+                            List<string> selecteddata = new List<string>();
+                            for (int i = 0; i < listBox1.Items.Count; i++)
+                            {
+                                if (listBox1.GetSelected(i) == true)
+                                {
+                                    selecteddata.Add(filenames[i]);
+                                }
+                            }
+                            button1.Visible = false;
+                            (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata, this);
+                            button1.Visible = true;
+                            if (error == false)
+                            {
+                                button6.Visible = true;
+                                button5.Visible = true;
+                                corrupted = true;
+                            }
+                            error = false;
+                            selecteddata.Clear();
                         }
-                    (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
-                        button1.Visible = true;
-                        button6.Visible = true;
-                        button5.Visible = true;
-                        corrupted = true;
-                        selecteddata.Clear();
+                        else if (EngineForm.Controls[0] is ChunkEngine)
+                        {
+                            List<string> selecteddata = new List<string>();
+                            for (int i = 0; i < listBox1.Items.Count; i++)
+                            {
+                                if (listBox1.GetSelected(i) == true)
+                                {
+                                    selecteddata.Add(filenames[i]);
+                                }
+                            }
+                            button1.Visible = false;
+                            (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata, this);
+                            button1.Visible = true;
+                            if (error == false)
+                            {
+                                button6.Visible = true;
+                                button5.Visible = true;
+                                corrupted = true;
+                            }
+                            error = false;
+                            selecteddata.Clear();
+                        }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    if (EngineForm.Controls[0] is NightmareEngine)
-                    {
-                        List<string> selecteddata = new List<string>();
-                        for (int i = 0; i < listBox1.Items.Count; i++)
-                        {
-                            if (listBox1.GetSelected(i) == true)
-                            {
-                                selecteddata.Add(filenames[i]);
-                            }
-                        }
-                        button1.Visible = false;
-                        (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata,this);
-                        button1.Visible = true;
-                        if (error == false)
-                        {
-                            button6.Visible = true;
-                            button5.Visible = true;
-                            corrupted = true;
-                        }
-                        error = false;
-                            selecteddata.Clear();
-                    }
-                    else if (EngineForm.Controls[0] is NumberEngine)
-                    {
-                        List<string> selecteddata = new List<string>();
-                        for (int i = 0; i < listBox1.Items.Count; i++)
-                        {
-                            if (listBox1.GetSelected(i) == true)
-                            {
-                                selecteddata.Add(filenames[i]);
-                            }
-                        }
-                        button1.Visible = false;
-                        (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata,this);
-                        button1.Visible = true;
-                        if (error == false)
-                        {
-                            button6.Visible = true;
-                            button5.Visible = true;
-                            corrupted = true;
-                        }
-                        error = false;
-                        selecteddata.Clear();
-                    }
-                    else if (EngineForm.Controls[0] is ChunkEngine)
-                    {
-                        List<string> selecteddata = new List<string>();
-                        for (int i = 0; i < listBox1.Items.Count; i++)
-                        {
-                            if (listBox1.GetSelected(i) == true)
-                            {
-                                selecteddata.Add(filenames[i]);
-                            }
-                        }
-                        button1.Visible = false;
-                        (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata,this);
-                        button1.Visible = true;
-                        if (error == false)
-                        {
-                            button6.Visible = true;
-                            button5.Visible = true;
-                            corrupted = true;
-                        }
-                        error = false;
-                        selecteddata.Clear();
-                    }
+                    button1.Visible = true;
+                    new ErrorForm(ex).ShowDialog();
                 }
             }
-            catch (Exception ex)
+      else
             {
-                button1.Visible = true;
-                new ErrorForm(ex).ShowDialog();
+                MessageBox.Show("There's no files in the domain!", "Axon Corruptor", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
