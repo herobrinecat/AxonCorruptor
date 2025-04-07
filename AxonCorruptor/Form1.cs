@@ -673,5 +673,21 @@ namespace AxonCorruptor
                 button1.Visible = true;
             }
         }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Directory.Exists(Path.GetTempPath() + "AxonTemp"))
+                {
+                    Directory.Delete(Path.GetTempPath() + "AxonTemp", true);
+                }
+                listBox2.Items.Clear();
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+            }
+        }
     }
 }
