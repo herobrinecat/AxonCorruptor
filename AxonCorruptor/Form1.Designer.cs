@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button10 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -51,12 +52,21 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // EngineForm
@@ -107,6 +117,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel1.Controls.Add(this.button10);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.trackBar1);
             this.panel1.Controls.Add(this.numericUpDown1);
@@ -117,9 +128,19 @@
             this.panel1.Size = new System.Drawing.Size(258, 287);
             this.panel1.TabIndex = 2;
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(37, 242);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(170, 30);
+            this.button10.TabIndex = 8;
+            this.button10.Text = "Send to Stockpile";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(40, 243);
+            this.button1.Location = new System.Drawing.Point(37, 206);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(170, 30);
             this.button1.TabIndex = 7;
@@ -324,12 +345,88 @@
             this.label7.TabIndex = 3;
             this.label7.Text = "File Domains";
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel5.Controls.Add(this.button11);
+            this.panel5.Controls.Add(this.button8);
+            this.panel5.Controls.Add(this.listBox2);
+            this.panel5.Controls.Add(this.button9);
+            this.panel5.Controls.Add(this.label6);
+            this.panel5.Location = new System.Drawing.Point(541, 329);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(453, 287);
+            this.panel5.TabIndex = 9;
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(342, 249);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(97, 25);
+            this.button11.TabIndex = 9;
+            this.button11.Text = "Save";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(174, 249);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(97, 25);
+            this.button8.TabIndex = 8;
+            this.button8.Text = "Load";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(12, 46);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBox2.Size = new System.Drawing.Size(427, 186);
+            this.listBox2.TabIndex = 4;
+            this.listBox2.DoubleClick += new System.EventHandler(this.listBox2_DoubleClick);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(12, 249);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(97, 25);
+            this.button9.TabIndex = 7;
+            this.button9.Text = "Load Stockpile";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(8, 10);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 20);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Stockpile";
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialog2";
+            this.openFileDialog2.Filter = "Stockpile file|*.asp";
+            this.openFileDialog2.Title = "Select a stockpile you want to load";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileName = "example";
+            this.saveFileDialog1.Filter = "Stockpile file|*.asp";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
             this.ClientSize = new System.Drawing.Size(1033, 652);
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
@@ -341,6 +438,7 @@
             this.Name = "Form1";
             this.Text = "Axon Corrupter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -352,6 +450,8 @@
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -381,6 +481,15 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +23,15 @@ namespace AxonCorruptor
         List<byte[]> data = new List<byte[]>();
         List<string> filenames = new List<string>();
         bool corrupted = false;
+        private static readonly object syncLock = new object();
+        Random random = new Random();
         public bool error = false;
+        string stockpileloaded = "0";
+        int filepile = 0;
         private void Form1_Load(object sender, EventArgs e)
         {
+            stockpileloaded = RandomNumber(0, 2147483646).ToString();
+            saveFileDialog1.FileName = stockpileloaded.ToString();
             listBox1.AllowDrop = true;
             if (Properties.Settings.Default.WarningRead == false)
             {
@@ -57,7 +64,13 @@ namespace AxonCorruptor
                 numericUpDown1.Value = (int)trackBar1.Value;
             }
         }
-
+        private int RandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            {
+                return random.Next(min, max);
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
       if (filenames.Count > 0)
@@ -79,11 +92,12 @@ namespace AxonCorruptor
                             button1.Visible = false;
                             for (int i = 0; i < filenames.Count; i++)
                             {
-                                FileStream file = File.Open(filenames[i], FileMode.Open);
-                                file.Write(data[i], 0, data[i].Length);
-                                file.Flush();
-                                file.Close();
-                                file.Dispose();
+                                using (FileStream file = File.Open(filenames[i], FileMode.Open))
+                                {
+                                    file.Write(data[i], 0, data[i].Length);
+                                    file.Flush();
+                                    file.Close();
+                                }
                             }
                         (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
                             button1.Visible = true;
@@ -105,11 +119,12 @@ namespace AxonCorruptor
                             button1.Visible = false;
                             for (int i = 0; i < filenames.Count; i++)
                             {
-                                FileStream file = File.Open(filenames[i], FileMode.Open);
-                                file.Write(data[i], 0, data[i].Length);
-                                file.Flush();
-                                file.Close();
-                                file.Dispose();
+                                using (FileStream file = File.Open(filenames[i], FileMode.Open))
+                                {
+                                    file.Write(data[i], 0, data[i].Length);
+                                    file.Flush();
+                                    file.Close();
+                                }
                             }
                             (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
                             button1.Visible = true;
@@ -131,11 +146,12 @@ namespace AxonCorruptor
                             button1.Visible = false;
                             for (int i = 0; i < filenames.Count; i++)
                             {
-                                FileStream file = File.Open(filenames[i], FileMode.Open);
-                                file.Write(data[i], 0, data[i].Length);
-                                file.Flush();
-                                file.Close();
-                                file.Dispose();
+                                using (FileStream file = File.Open(filenames[i], FileMode.Open))
+                                {
+                                    file.Write(data[i], 0, data[i].Length);
+                                    file.Flush();
+                                    file.Close();
+                                }
                             }
                         (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
                             button1.Visible = true;
@@ -274,11 +290,12 @@ namespace AxonCorruptor
             {
                 for (int i = 0; i < filenames.Count; i++)
                 {
-                    FileStream file = File.Open(filenames[i], FileMode.Create);
-                    file.Write(data[i], 0, data[i].Length);
-                    file.Flush();
-                    file.Close();
-                    file.Dispose();
+                    using (FileStream file = File.Open(filenames[i], FileMode.Open))
+                    {
+                        file.Write(data[i], 0, data[i].Length);
+                        file.Flush();
+                        file.Close();
+                    }
                 }
                 button6.Visible = false;
                 button5.Visible = false;
@@ -332,11 +349,12 @@ namespace AxonCorruptor
                     {
                         for (int i = 0; i < filenames.Count; i++)
                         {
-                            FileStream file = File.Open(filenames[i], FileMode.Create);
-                            file.Write(data[i], 0, data[i].Length);
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
+                            using (FileStream file = File.Open(filenames[i], FileMode.Open))
+                            {
+                                file.Write(data[i], 0, data[i].Length);
+                                file.Flush();
+                                file.Close();
+                            }
                         }
                         button6.Visible = false;
                         button5.Visible = false;
@@ -395,11 +413,12 @@ namespace AxonCorruptor
                     {
                         for (int i = 0; i < filenames.Count; i++)
                         {
-                            FileStream file = File.Open(filenames[i], FileMode.Create);
-                            file.Write(data[i], 0, data[i].Length);
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
+                            using (FileStream file = File.Open(filenames[i], FileMode.Open))
+                            {
+                                file.Write(data[i], 0, data[i].Length);
+                                file.Flush();
+                                file.Close();
+                            }
                         }
                         button6.Visible = false;
                         button5.Visible = false;
@@ -457,6 +476,202 @@ namespace AxonCorruptor
         private void listBox1_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void listBox2_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                int selectedindex = listBox2.SelectedIndex;
+                if (selectedindex != -1)
+                {
+                    button1.Visible = false;
+                    string[] files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        foreach (string file in filenames)
+                        {
+                            if (Path.GetFileName(files[i]) == Path.GetFileName(file))
+                            {
+                                File.Copy(files[i], file, true);
+                            }
+                        }
+
+                    }
+                    button6.Visible = true;
+                    button5.Visible = true;
+                    corrupted = true;
+                    button1.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+                button1.Visible = true;
+            }
+        }
+        
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+           try
+            {
+                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                {
+                    if (Directory.Exists(Path.GetTempPath() + "AxonTemp"))
+                    {
+                        if (Directory.GetFiles(Path.GetTempPath() + "AxonTemp").Length > 0)
+                        {
+                            string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp");
+                            foreach (string filename in filestest)
+                            {
+                                if (filename.EndsWith(".zip"))
+                                {
+                                    Directory.Delete(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(filename).Replace(".zip", ""), true);
+                                    File.Delete(filename);
+                                    listBox2.Items.Clear();
+                                    File.Copy(openFileDialog2.FileName, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(openFileDialog2.FileName));
+                                    File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip");
+                                    Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                                    ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                                    stockpileloaded = Path.GetFileNameWithoutExtension(openFileDialog2.FileName);
+                                    foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
+                                    {
+                                        listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            string[] directories = Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp");
+                            foreach (string directory in directories)
+                            {
+                                Directory.Delete(directory, true);
+                            }
+                            listBox2.Items.Clear();
+                            File.Copy(openFileDialog2.FileName, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(openFileDialog2.FileName));
+                            File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip");
+                            Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                            ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                            stockpileloaded = Path.GetFileNameWithoutExtension(openFileDialog2.FileName);
+                            foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
+                            {
+                                listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Path.GetTempPath() + "AxonTemp");
+                        File.Copy(openFileDialog2.FileName, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(openFileDialog2.FileName));
+                        File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip");
+                        ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                        stockpileloaded = Path.GetFileNameWithoutExtension(openFileDialog2.FileName);
+                        foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
+                        {
+                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+          try
+            {
+                if (corrupted == true)
+                {
+
+                    filepile = RandomNumber(0, 2147483646);
+                    Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile);
+                    for (int i = 0; i < filenames.Count; i++)
+                    {
+                        File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile + @"\" + Path.GetFileName(filenames[i]));
+                    }
+                    listBox2.Items.Add(filepile);
+                }
+                else
+                {
+                    MessageBox.Show("You haven't corrupted anything yet!", "Axon Corruptor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+            }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                if (Directory.Exists(Path.GetTempPath() + "AxonTemp"))
+                {
+                    Directory.Delete(Path.GetTempPath() + "AxonTemp", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+           try
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    ZipFile.CreateFromDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded, Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip");
+                    File.Copy(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip", saveFileDialog1.FileName, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int selectedindex = listBox2.SelectedIndex;
+                if (selectedindex != -1)
+                {
+                    button1.Visible = false;
+                    string[] files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        foreach (string file in filenames)
+                        {
+                            if (Path.GetFileName(files[i]) == Path.GetFileName(file))
+                            {
+                                File.Copy(files[i], file, true);
+                            }
+                        }
+
+                    }
+                    button6.Visible = true;
+                    button5.Visible = true;
+                    corrupted = true;
+                    button1.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+                button1.Visible = true;
+            }
         }
     }
 }

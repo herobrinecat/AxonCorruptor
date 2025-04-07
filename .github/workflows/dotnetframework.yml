@@ -25,7 +25,7 @@ jobs:
       run: nuget restore AxonCorruptor.sln
 
     - name: Build solution
-      run: msbuild AxonCorruptor.sln -t:rebuild -property:Configuration=Release -property:Platform=x64
+      run: msbuild AxonCorruptor.sln -t:rebuild -property:Configuration=Release -property:Platform=x64 -property:Optimize=true
       
     - name: Upload artifact
       uses: actions/upload-artifact@v4

@@ -125,6 +125,7 @@ If you really wanna corrupt those type of files, then a virtual machine would be
 As any corruptions goes, be aware of flashing lights and loud noises, as it can give you seizures and a shock of your life.
 
 BSOD on Windows is rare, however, they can still happen, in case of this, save any unsaved files before doing this!
-</value>
+
+Also, the corruption is not real-time, so if you get an error, make sure that the process that is using the file is closed!</value>
   </data>
 </root>

@@ -38,19 +38,20 @@ namespace AxonCorruptor
                         for (int i = 0; i < length; i++)
                         {
                             byte[] buffer;
-                            FileStream file = File.Open(filenames[i], FileMode.Open);
-                            for (int j = 0; j < intensity; j++)
+                            using (FileStream file = File.Open(filenames[i], FileMode.Open))
                             {
-                                buffer = new byte[(long)numericUpDown1.Value];
-                                file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
-                                file.Read(buffer, 0, (int)numericUpDown1.Value);
-                                file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
-                                OverwriteBytesinFile(buffer, file);
+                                for (int j = 0; j < intensity; j++)
+                                {
+                                    buffer = new byte[(long)numericUpDown1.Value];
+                                    file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
+                                    file.Read(buffer, 0, (int)numericUpDown1.Value);
+                                    file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
+                                    OverwriteBytesinFile(buffer, file);
+                                }
+                                file.Flush();
+                                file.Close();
+                                buffer = null;
                             }
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
-                            buffer = null;
                         }
                     }
                     else if (currentType == 1)
@@ -61,27 +62,29 @@ namespace AxonCorruptor
                             byte[] buffer;
                             byte[] buffer1;
                             byte[] buffercombined;
-                            FileStream file = File.Open(filenames[i], FileMode.Open);
-                            for (int j = 0; j < intensity; j++)
+                            using (FileStream file = File.Open(filenames[i], FileMode.Open))
                             {
-                                buffer = new byte[(long)numericUpDown1.Value];
-                                buffer1 = new byte[(long)numericUpDown1.Value];
-                                buffercombined = new byte[(long)numericUpDown1.Value + (long)numericUpDown1.Value];
-                                int oldvalue = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - ((long)numericUpDown1.Value + (long)numericUpDown1.Value));
-                                file.Position = oldvalue;
-                                file.Read(buffer, 0, (int)numericUpDown1.Value);
-                                file.Read(buffer1, 0, (int)numericUpDown1.Value);
-                                file.Position = oldvalue;
-                                Buffer.BlockCopy(buffer1, 0, buffercombined, 0, buffer1.Length);
-                                Buffer.BlockCopy(buffer, 0, buffercombined, buffer1.Length, buffer.Length);
-                                OverwriteBytesinFile(buffercombined, file);
+                                for (int j = 0; j < intensity; j++)
+                                {
+                                    buffer = new byte[(long)numericUpDown1.Value];
+                                    buffer1 = new byte[(long)numericUpDown1.Value];
+                                    buffercombined = new byte[(long)numericUpDown1.Value + (long)numericUpDown1.Value];
+                                    int oldvalue = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - ((long)numericUpDown1.Value + (long)numericUpDown1.Value));
+                                    file.Position = oldvalue;
+                                    file.Read(buffer, 0, (int)numericUpDown1.Value);
+                                    file.Read(buffer1, 0, (int)numericUpDown1.Value);
+                                    file.Position = oldvalue;
+                                    Buffer.BlockCopy(buffer1, 0, buffercombined, 0, buffer1.Length);
+                                    Buffer.BlockCopy(buffer, 0, buffercombined, buffer1.Length, buffer.Length);
+                                    OverwriteBytesinFile(buffercombined, file);
+                                }
+                                file.Flush();
+                                file.Close();
+                                buffer = null;
+                                buffer1 = null;
+                                buffercombined = null;
                             }
-                            file.Flush();
-                            file.Close();
-                            file.Dispose();
-                            buffer = null;
-                            buffer1 = null;
-                            buffercombined = null;
+                           
                         }
                     }
                 }
