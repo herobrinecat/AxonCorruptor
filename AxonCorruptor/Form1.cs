@@ -535,6 +535,7 @@ namespace AxonCorruptor
                                     Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
                                     ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
                                     stockpileloaded = Path.GetFileNameWithoutExtension(openFileDialog2.FileName);
+                                    saveFileDialog1.FileName = stockpileloaded.ToString();
                                     foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
                                     {
                                         listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
@@ -556,6 +557,7 @@ namespace AxonCorruptor
                             Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
                             ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
                             stockpileloaded = Path.GetFileNameWithoutExtension(openFileDialog2.FileName);
+                            saveFileDialog1.FileName = stockpileloaded.ToString();
                             foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
                             {
                                 listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
@@ -571,6 +573,7 @@ namespace AxonCorruptor
                         File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip");
                         ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
                         stockpileloaded = Path.GetFileNameWithoutExtension(openFileDialog2.FileName);
+                        saveFileDialog1.FileName = stockpileloaded.ToString();
                         foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
                         {
                             listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
@@ -629,10 +632,17 @@ namespace AxonCorruptor
         {
            try
             {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+               if (listBox2.Items.Count > 0)
                 {
-                    ZipFile.CreateFromDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded, Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip");
-                    File.Copy(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip", saveFileDialog1.FileName, true);
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        ZipFile.CreateFromDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded, Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip");
+                        File.Copy(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip", saveFileDialog1.FileName, true);
+                    }
+                }
+               else
+                {
+                    MessageBox.Show("Nothing is in your stockpile!", "Axon Corruptor", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -666,6 +676,10 @@ namespace AxonCorruptor
                     corrupted = true;
                     button1.Visible = true;
                 }
+                else
+                {
+                    MessageBox.Show("A stockpile save is not selected!", "Axon Corruptor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -683,6 +697,89 @@ namespace AxonCorruptor
                     Directory.Delete(Path.GetTempPath() + "AxonTemp", true);
                 }
                 listBox2.Items.Clear();
+                stockpileloaded = RandomNumber(0, 2147483646).ToString();
+                saveFileDialog1.FileName = stockpileloaded.ToString();
+            }
+            catch (Exception ex)
+            {
+                new ErrorForm(ex).Show();
+            }
+        }
+
+        private void listBox2_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void listBox2_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                string file = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+               if (file.EndsWith(".asp"))
+                {
+                    if (Directory.Exists(Path.GetTempPath() + "AxonTemp"))
+                    {
+                        if (Directory.GetFiles(Path.GetTempPath() + "AxonTemp").Length > 0)
+                        {
+                            string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp");
+                            foreach (string filename in filestest)
+                            {
+                                if (filename.EndsWith(".zip"))
+                                {
+                                    Directory.Delete(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(filename).Replace(".zip", ""), true);
+                                    File.Delete(filename);
+                                    listBox2.Items.Clear();
+                                    File.Copy(file, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(file));
+                                    File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip");
+                                    Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file));
+                                    ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file));
+                                    stockpileloaded = Path.GetFileNameWithoutExtension(file);
+                                    saveFileDialog1.FileName = stockpileloaded.ToString();
+                                    foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file)))
+                                    {
+                                        listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            string[] directories = Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp");
+                            foreach (string directory in directories)
+                            {
+                                Directory.Delete(directory, true);
+                            }
+                            listBox2.Items.Clear();
+                            File.Copy(file, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(file));
+                            File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip");
+                            Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file));
+                            ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file));
+                            stockpileloaded = Path.GetFileNameWithoutExtension(file);
+                            saveFileDialog1.FileName = stockpileloaded.ToString();
+                            foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file)))
+                            {
+                                listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Path.GetTempPath() + "AxonTemp");
+                        File.Copy(file, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(file));
+                        File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip");
+                        ZipFile.ExtractToDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file));
+                        stockpileloaded = Path.GetFileNameWithoutExtension(file);
+                        saveFileDialog1.FileName = stockpileloaded.ToString();
+                        foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file)))
+                        {
+                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

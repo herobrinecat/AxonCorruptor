@@ -53,6 +53,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.button12 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.listBox2 = new System.Windows.Forms.ListBox();
@@ -60,7 +61,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button12 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -360,6 +360,16 @@
             this.panel5.Size = new System.Drawing.Size(453, 287);
             this.panel5.TabIndex = 9;
             // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(342, 9);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(97, 25);
+            this.button12.TabIndex = 10;
+            this.button12.Text = "Clear";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
             // button11
             // 
             this.button11.Location = new System.Drawing.Point(342, 249);
@@ -382,12 +392,14 @@
             // 
             // listBox2
             // 
+            this.listBox2.AllowDrop = true;
             this.listBox2.FormattingEnabled = true;
             this.listBox2.Location = new System.Drawing.Point(12, 46);
             this.listBox2.Name = "listBox2";
-            this.listBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.listBox2.Size = new System.Drawing.Size(427, 186);
             this.listBox2.TabIndex = 4;
+            this.listBox2.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox2_DragDrop);
+            this.listBox2.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox2_DragEnter);
             this.listBox2.DoubleClick += new System.EventHandler(this.listBox2_DoubleClick);
             // 
             // button9
@@ -421,16 +433,6 @@
             // 
             this.saveFileDialog1.FileName = "example";
             this.saveFileDialog1.Filter = "Stockpile file|*.asp";
-            // 
-            // button12
-            // 
-            this.button12.Location = new System.Drawing.Point(342, 9);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(97, 25);
-            this.button12.TabIndex = 10;
-            this.button12.Text = "Clear";
-            this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // Form1
             // 
