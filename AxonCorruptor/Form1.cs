@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -10,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace AxonCorruptor
 {
@@ -687,7 +685,11 @@ namespace AxonCorruptor
                             string[] directories = Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp");
                             foreach (string directory in directories)
                             {
-                                Directory.Delete(directory, true);
+                                if (directory != Path.GetTempPath() + @"AxonTemp\DiskCache")
+                                {
+                                    Directory.Delete(directory, true);
+                                }
+
                             }
                             listBox2.Items.Clear();
                             File.Copy(openFileDialog2.FileName, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(openFileDialog2.FileName), true);
@@ -877,7 +879,15 @@ namespace AxonCorruptor
             {
                 if (Directory.Exists(Path.GetTempPath() + "AxonTemp"))
                 {
-                    Directory.Delete(Path.GetTempPath() + "AxonTemp", true);
+                    string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp");
+                    foreach (string filename in filestest)
+                    {
+                        if (filename.EndsWith(".zip"))
+                        {
+                            Directory.Delete(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(filename).Replace(".zip", ""), true);
+                            File.Delete(filename);
+                        }
+                    }
                 }
                 listBox2.Items.Clear();
                 stockpileloaded = RandomNumber(0, 2147483646).ToString();
