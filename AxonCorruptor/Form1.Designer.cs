@@ -61,6 +61,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.button13 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -216,6 +217,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.panel3.Controls.Add(this.button13);
             this.panel3.Controls.Add(this.button7);
             this.panel3.Controls.Add(this.button6);
             this.panel3.Controls.Add(this.button5);
@@ -240,7 +242,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(25, 527);
+            this.button6.Location = new System.Drawing.Point(25, 456);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(194, 45);
             this.button6.TabIndex = 11;
@@ -251,7 +253,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(25, 578);
+            this.button5.Location = new System.Drawing.Point(25, 507);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(194, 45);
             this.button5.TabIndex = 10;
@@ -434,6 +436,16 @@
             this.saveFileDialog1.FileName = "example";
             this.saveFileDialog1.Filter = "Stockpile file|*.asp";
             // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(25, 578);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(194, 45);
+            this.button13.TabIndex = 13;
+            this.button13.Text = "Settings";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,6 +517,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
     }
 }
 

@@ -34,5 +34,17 @@ namespace AxonCorruptor.Properties {
                 this["WarningRead"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DiskCache {
+            get {
+                return ((bool)(this["DiskCache"]));
+            }
+            set {
+                this["DiskCache"] = value;
+            }
+        }
     }
 }
