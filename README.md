@@ -1,4 +1,4 @@
-# AxonCorruptor
+# <img src="https://github.com/herobrinecat/AxonCorruptor/blob/main/axonicon.png?raw=true" alt="A logo of the Axon Corruptor" width="50" height="50"> AxonCorruptor
 
 A file corruptor that is open-source and made with .NET Framework!
 
