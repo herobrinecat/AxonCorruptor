@@ -46,5 +46,17 @@ namespace AxonCorruptor.Properties {
                 this["DiskCache"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MultiThread {
+            get {
+                return ((bool)(this["MultiThread"]));
+            }
+            set {
+                this["MultiThread"] = value;
+            }
+        }
     }
 }

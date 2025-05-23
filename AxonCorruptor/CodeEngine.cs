@@ -13,9 +13,9 @@ using System.Windows.Forms;
 
 namespace AxonCorruptor
 {
-    public partial class NightmareEngine : Form
+    public partial class CodeEngine : Form
     {
-        public NightmareEngine()
+        public CodeEngine()
         {
             InitializeComponent();
         }
@@ -114,14 +114,7 @@ namespace AxonCorruptor
                     }
                 }
             });
-            if (Properties.Settings.Default.MultiThread)
-            {
-                thread.TrySetApartmentState(ApartmentState.MTA);
-            }
-            else
-            {
-                thread.TrySetApartmentState(ApartmentState.STA);
-            }
+            thread.TrySetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
         }

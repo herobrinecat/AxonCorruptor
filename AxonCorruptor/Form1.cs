@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,11 +23,14 @@ namespace AxonCorruptor
 
         List<byte[]> data = new List<byte[]>();
         List<string> filenames = new List<string>();
+        List<int> stockpileids = new List<int>();
+        public List<string> stockpilenames = new List<string>();
         bool corrupted = false;
         private static readonly object syncLock = new object();
         Random random = new Random();
         public bool error = false;
         string stockpileloaded = "0";
+       
         int filepile = 0;
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -41,6 +46,7 @@ namespace AxonCorruptor
             EngineForm.Controls.Add(nightmareEngine);
 
             nightmareEngine.Show();
+
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -70,6 +76,7 @@ namespace AxonCorruptor
                 return random.Next(min, max);
             }
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
       if (filenames.Count > 0)
@@ -578,7 +585,15 @@ namespace AxonCorruptor
                     {
                         button1.Visible = false;
                         List<string> filenamefailed = new List<string>();
-                        string[] files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                        string[] files;
+                        if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                        {
+                            files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + stockpileids[selectedindex]);
+                        }
+                        else
+                        {
+                            files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                        }
                         for (int i = 0; i < files.Length; i++)
                         {
                             foreach (string file in filenames)
@@ -658,7 +673,7 @@ namespace AxonCorruptor
                     {
                         if (Directory.GetFiles(Path.GetTempPath() + "AxonTemp").Length > 0)
                         {
-                            string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp");
+                            string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp", "*.*", SearchOption.TopDirectoryOnly);
                             foreach (string filename in filestest)
                             {
                                 if (filename.EndsWith(".zip"))
@@ -666,6 +681,8 @@ namespace AxonCorruptor
                                     Directory.Delete(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(filename).Replace(".zip", ""), true);
                                     File.Delete(filename);
                                     listBox2.Items.Clear();
+                                    stockpilenames.Clear();
+                                    stockpileids.Clear();
                                     File.Copy(openFileDialog2.FileName, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(openFileDialog2.FileName), true);
                                     File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip");
                                     Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
@@ -674,7 +691,29 @@ namespace AxonCorruptor
                                     saveFileDialog1.FileName = stockpileloaded.ToString();
                                     foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
                                     {
-                                        listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                       if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                                        {
+                                            string[] content = File.ReadAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                                            for (int i = 0;  i < content.Length; i++)
+                                            {
+                                                if (!string.IsNullOrEmpty(content[i]))
+                                                {
+                                                    string[] splited = content[i].Split(new[] { ':' }, 2);
+                                                    stockpileids.Add(int.Parse(splited[0]));
+                                                    stockpilenames.Add(splited[1]);
+                                                    listBox2.Items.Add(splited[1]);
+                                                }
+                                                else
+                                                {
+                                                    listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                                }
+                                            }
+                                            if (content.Length == listBox2.Items.Count) break;
+                                        }
+                                       else
+                                        {
+                                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                        }
                                     }
                                 }
                             }
@@ -700,7 +739,29 @@ namespace AxonCorruptor
                             saveFileDialog1.FileName = stockpileloaded.ToString();
                             foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
                             {
-                                listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                                {
+                                    string[] content = File.ReadAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                                    for (int i = 0; i < content.Length; i++)
+                                    {
+                                        if (!string.IsNullOrEmpty(content[i]))
+                                        {
+                                            string[] splited = content[i].Split(new[] { ':' }, 2);
+                                            stockpileids.Add(int.Parse(splited[0]));
+                                            stockpilenames.Add(splited[1]);
+                                            listBox2.Items.Add(splited[1]);
+                                        }
+                                        else
+                                        {
+                                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                        }
+                                    }
+                                    if (content.Length == listBox2.Items.Count) break;
+                                }
+                                else
+                                {
+                                    listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                }
                             }
                         }
 
@@ -716,7 +777,29 @@ namespace AxonCorruptor
                         saveFileDialog1.FileName = stockpileloaded.ToString();
                         foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
                         {
-                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                            if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                            {
+                                string[] content = File.ReadAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                                for (int i = 0; i < content.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(content[i]))
+                                    {
+                                        string[] splited = content[i].Split(new[] { ':' }, 2);
+                                        stockpileids.Add(int.Parse(splited[0]));
+                                        stockpilenames.Add(splited[1]);
+                                        listBox2.Items.Add(splited[1]);
+                                    }
+                                    else
+                                    {
+                                        listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                    }
+                                }
+                                if (content.Length == listBox2.Items.Count) break;
+                            }
+                            else
+                            {
+                                listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                            }
                         }
                     }
                 }
@@ -734,13 +817,18 @@ namespace AxonCorruptor
                 if (corrupted == true)
                 {
 
-                    filepile = RandomNumber(0, 2147483646);
-                    Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile);
-                    for (int i = 0; i < filenames.Count; i++)
+                    if (new StockpileName(this).ShowDialog() == DialogResult.OK)
                     {
-                        File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile + @"\" + Path.GetFileName(filenames[i]), true);
+                        
+                        filepile = RandomNumber(0, 2147483646);
+                        Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile);
+                        for (int i = 0; i < filenames.Count; i++)
+                        {
+                            File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile + @"\" + Path.GetFileName(filenames[i]), true);
+                        }
+                        stockpileids.Add(filepile);
+                        listBox2.Items.Add(stockpilenames[stockpileids.Count - 1]);
                     }
-                    listBox2.Items.Add(filepile);
                 }
                 else
                 {
@@ -777,8 +865,15 @@ namespace AxonCorruptor
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         File.Delete(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip");
+                        if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt")) File.Delete(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                        for (int i = 0; i < listBox2.Items.Count; i++)
+                        {
+                            string[] real = { stockpileids[i].ToString() + ":" + stockpilenames[i].ToString() };
+                            File.AppendAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt", real);
+                        }
                         ZipFile.CreateFromDirectory(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded, Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip");
                         File.Copy(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + ".zip", saveFileDialog1.FileName, true);
+                        
                     }
                 }
                else
@@ -804,23 +899,31 @@ namespace AxonCorruptor
                     {
                         button1.Visible = false;
                         List<string> filenamefailed = new List<string>();
-                        string[] files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
-                        for (int i = 0; i < files.Length; i++)
+                        string[] files;
+                        if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
                         {
-                            foreach (string file in filenames)
-                            {
-                                if (Path.GetFileName(files[i]) == Path.GetFileName(file))
-                                {
-                                    File.Copy(files[i], file, true);
-                                    success = true;
-                                }
-                                else
-                                {
-                                    filenamefailed.Add(Path.GetFileName(files[i]));
-                                }
-                            }
-
+                            files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + stockpileids[selectedindex]);
                         }
+                        else
+                        {
+                            files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                        }
+                            for (int i = 0; i < files.Length; i++)
+                            {
+                                foreach (string file in filenames)
+                                {
+                                    if (Path.GetFileName(files[i]) == Path.GetFileName(file))
+                                    {
+                                        File.Copy(files[i], file, true);
+                                        success = true;
+                                    }
+                                    else
+                                    {
+                                        filenamefailed.Add(Path.GetFileName(files[i]));
+                                    }
+                                }
+
+                            }
                         if (filenamefailed.Count > 0)
                         {
                             if (success == true)
@@ -879,17 +982,20 @@ namespace AxonCorruptor
             {
                 if (Directory.Exists(Path.GetTempPath() + "AxonTemp"))
                 {
-                    string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp");
+                    string[] filestest = Directory.GetFiles(Path.GetTempPath() + "AxonTemp","*.*",SearchOption.TopDirectoryOnly);
                     foreach (string filename in filestest)
                     {
                         if (filename.EndsWith(".zip"))
                         {
                             Directory.Delete(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(filename).Replace(".zip", ""), true);
+                            if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt")) File.Delete(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
                             File.Delete(filename);
                         }
                     }
                 }
                 listBox2.Items.Clear();
+                stockpileids.Clear();
+                stockpilenames.Clear();
                 stockpileloaded = RandomNumber(0, 2147483646).ToString();
                 saveFileDialog1.FileName = stockpileloaded.ToString();
             }
@@ -931,7 +1037,29 @@ namespace AxonCorruptor
                                     saveFileDialog1.FileName = stockpileloaded.ToString();
                                     foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file)))
                                     {
-                                        listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                        if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                                        {
+                                            string[] content = File.ReadAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                                            for (int i = 0; i < content.Length; i++)
+                                            {
+                                                if (!string.IsNullOrEmpty(content[i]))
+                                                {
+                                                    string[] splited = content[i].Split(new[] { ':' }, 2);
+                                                    stockpileids.Add(int.Parse(splited[0]));
+                                                    stockpilenames.Add(splited[1]);
+                                                    listBox2.Items.Add(splited[1]);
+                                                }
+                                                else
+                                                {
+                                                    listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                                }
+                                            }
+                                            if (content.Length == listBox2.Items.Count) break;
+                                        }
+                                        else
+                                        {
+                                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                        }
                                     }
                                 }
                             }
@@ -953,7 +1081,29 @@ namespace AxonCorruptor
                             saveFileDialog1.FileName = stockpileloaded.ToString();
                             foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file)))
                             {
-                                listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                                {
+                                    string[] content = File.ReadAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                                    for (int i = 0; i < content.Length; i++)
+                                    {
+                                        if (!string.IsNullOrEmpty(content[i]))
+                                        {
+                                            string[] splited = content[i].Split(new[] { ':' }, 2);
+                                            stockpileids.Add(int.Parse(splited[0]));
+                                            stockpilenames.Add(splited[1]);
+                                            listBox2.Items.Add(splited[1]);
+                                        }
+                                        else
+                                        {
+                                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                        }
+                                    }
+                                    if (content.Length == listBox2.Items.Count) break;
+                                }
+                                else
+                                {
+                                    listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                }
                             }
                         }
 
@@ -969,7 +1119,29 @@ namespace AxonCorruptor
                         saveFileDialog1.FileName = stockpileloaded.ToString();
                         foreach (string corfilename in Directory.GetDirectories(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file)))
                         {
-                            listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                            if (File.Exists(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt"))
+                            {
+                                string[] content = File.ReadAllLines(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\info.txt");
+                                for (int i = 0; i < content.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(content[i]))
+                                    {
+                                        string[] splited = content[i].Split(new[] { ':' }, 2);
+                                        stockpileids.Add(int.Parse(splited[0]));
+                                        stockpilenames.Add(splited[1]);
+                                        listBox2.Items.Add(splited[1]);
+                                    }
+                                    else
+                                    {
+                                        listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                                    }
+                                }
+                                if (content.Length == listBox2.Items.Count) break;
+                            }
+                            else
+                            {
+                                listBox2.Items.Add(Path.GetFileNameWithoutExtension(corfilename));
+                            }
                         }
                     }
                 }

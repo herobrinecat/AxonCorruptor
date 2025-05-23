@@ -50,7 +50,14 @@ namespace AxonCorruptor
                     }
                 }
             });
-            thread.TrySetApartmentState(ApartmentState.STA);
+            if (Properties.Settings.Default.MultiThread)
+            {
+                thread.TrySetApartmentState(ApartmentState.MTA);
+            }
+            else
+            {
+                thread.TrySetApartmentState(ApartmentState.STA);
+            }
             thread.Start();
             thread.Join();
         }

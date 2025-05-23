@@ -44,6 +44,9 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>axonicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -98,6 +101,12 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="StockpileName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockpileName.Designer.cs">
+      <DependentUpon>StockpileName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Warning.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +141,9 @@
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="StockpileName.resx">
+      <DependentUpon>StockpileName.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Warning.resx">
       <DependentUpon>Warning.cs</DependentUpon>
     </EmbeddedResource>
@@ -148,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="axonicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

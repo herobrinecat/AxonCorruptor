@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.EngineForm = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,6 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button13 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -61,7 +63,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button13 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -228,6 +229,16 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(250, 655);
             this.panel3.TabIndex = 3;
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(25, 578);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(194, 45);
+            this.button13.TabIndex = 13;
+            this.button13.Text = "Settings";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // button7
             // 
@@ -436,16 +447,6 @@
             this.saveFileDialog1.FileName = "example";
             this.saveFileDialog1.Filter = "Stockpile file|*.asp";
             // 
-            // button13
-            // 
-            this.button13.Location = new System.Drawing.Point(25, 578);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(194, 45);
-            this.button13.TabIndex = 13;
-            this.button13.Text = "Settings";
-            this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -460,6 +461,7 @@
             this.Controls.Add(this.EngineForm);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Axon Corrupter";
