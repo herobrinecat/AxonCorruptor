@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -590,7 +590,14 @@ namespace AxonCorruptor
                         }
                         else
                         {
-                            files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                            if (stockpilenames.Count > 0)
+                            {
+                                files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + stockpileids[selectedindex]);
+                            }
+                            else
+                            {
+                                files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                            }
                         }
                         for (int i = 0; i < files.Length; i++)
                         {
@@ -904,7 +911,15 @@ namespace AxonCorruptor
                         }
                         else
                         {
-                            files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                            if (stockpilenames.Count > 0)
+                            {
+                                files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + stockpileids[selectedindex]);
+                            }
+                            else
+                            {
+                                files = Directory.GetFiles(Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + listBox2.Items[selectedindex]);
+                            }
+                                
                         }
                             for (int i = 0; i < files.Length; i++)
                             {
