@@ -35,9 +35,10 @@ namespace AxonCorruptor
                     if (currentType == 0) 
                     {
                         Int32 length = filenames.Count;
+                        byte[] buffer;
                         for (int i = 0; i < length; i++)
                         {
-                            byte[] buffer;
+                            
                             using (FileStream file = File.Open(filenames[i], FileMode.Open))
                             {
                                 for (int j = 0; j < intensity; j++)
@@ -50,18 +51,20 @@ namespace AxonCorruptor
                                 }
                                 file.Flush();
                                 file.Close();
-                                buffer = null;
+                              
                             }
                         }
+                        buffer = null;
                     }
                     else if (currentType == 1)
                     {
                         Int32 length = filenames.Count;
+                        byte[] buffer;
+                        byte[] buffer1;
+                        byte[] buffercombined;
                         for (int i = 0; i < length; i++)
                         {
-                            byte[] buffer;
-                            byte[] buffer1;
-                            byte[] buffercombined;
+
                             using (FileStream file = File.Open(filenames[i], FileMode.Open))
                             {
                                 for (int j = 0; j < intensity; j++)
@@ -80,12 +83,13 @@ namespace AxonCorruptor
                                 }
                                 file.Flush();
                                 file.Close();
-                                buffer = null;
-                                buffer1 = null;
-                                buffercombined = null;
+
                             }
                            
                         }
+                        buffer = null;
+                        buffer1 = null;
+                        buffercombined = null;
                     }
                 }
                 catch (Exception ex) 

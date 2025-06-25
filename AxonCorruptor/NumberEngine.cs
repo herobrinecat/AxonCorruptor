@@ -38,6 +38,7 @@ namespace AxonCorruptor
                         {
                             content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
                         }
+                        File.Delete(filenames[i]);
                         File.WriteAllText(filenames[i], content);
                     }
                 }
