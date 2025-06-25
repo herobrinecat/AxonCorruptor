@@ -23,7 +23,27 @@ namespace AxonCorruptor
         private static readonly object syncLock = new object();
         private void NightmareEngine_Load(object sender, EventArgs e)
         {
-
+            if (Properties.Settings.Default.AllowFileSizeChange == true)
+            {
+                comboBox1.Items.Add("ADDRANDOM");
+                comboBox1.Items.Add("ADDTILT");
+                comboBox1.Items.Add("ADDRANDOMTILT");
+            }
+            else
+            {
+                if (comboBox1.Items.Contains("ADDRANDOM"))
+                {
+                    comboBox1.Items.Remove("ADDRANDOM");
+                }
+                if (comboBox1.Items.Contains("ADDTILT"))
+                {
+                    comboBox1.Items.Remove("ADDTILT");
+                }
+                if (comboBox1.Items.Contains("ADDRANDOMTILT"))
+                {
+                    comboBox1.Items.Remove("ADDRANDOMTILT");
+                }
+            }
         }
         public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
@@ -49,6 +69,7 @@ namespace AxonCorruptor
                             }
                             else if (currentType == 1)
                             {
+                                byte[] buffer = new byte[1];
                                 for (int j = 0; j < intensity; j++)
                                 {
                                     if (RandomNumber(0, 1) == 0)
@@ -58,7 +79,7 @@ namespace AxonCorruptor
                                     }
                                     else
                                     {
-                                        byte[] buffer = new byte[1];
+                                       
                                         file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
                                         file.Read(buffer, 0, 1);
                                         if (RandomNumber(0, 1) == 0)
@@ -71,16 +92,18 @@ namespace AxonCorruptor
                                         }
                                         file.Position = file.Position - 1;
                                         file.WriteByte(buffer[0]);
-                                        buffer = null;
+                                        
                                     }
+                                    buffer = null;
                                 }
 
                             }
                             else if (currentType == 2)
                             {
+                                byte[] buffer = new byte[1];
                                 for (int j = 0; j < intensity; j++)
                                 {
-                                    byte[] buffer = new byte[1];
+                                    
                                     file.Position = RandomNumber(0 + (int)numericUpDown3.Value, file.Length);
                                     file.Read(buffer, 0, 1);
                                     if (RandomNumber(0, 1) == 0)
@@ -93,11 +116,10 @@ namespace AxonCorruptor
                                     }
                                     file.Position = file.Position - 1;
                                     file.WriteByte(buffer[0]);
-                                    buffer = null;
+                                   
                                 }
-
+                                buffer = null;
                             }
-
                             file.Flush();
                             file.Close();
                         }
