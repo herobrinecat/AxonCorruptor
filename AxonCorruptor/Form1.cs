@@ -74,7 +74,27 @@ namespace AxonCorruptor
                 return random.Next(min, max);
             }
         }
-
+        private void RestoreFile()
+        {
+            if (Properties.Settings.Default.DiskCache == false)
+            {
+                for (int i = 0; i < filenames.Count; i++)
+                {
+                    File.Delete(filenames[i]);
+                    using (FileStream file = File.Open(filenames[i], FileMode.Create))
+                    {
+                        file.Write(data[i], 0, data[i].Length);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < filenames.Count; i++)
+                {
+                    File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i], true);
+                }
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
       if (filenames.Count > 0)
@@ -94,25 +114,7 @@ namespace AxonCorruptor
                                 }
                             }
                             button1.Visible = false;
-                            if (Properties.Settings.Default.DiskCache == false)
-                            {
-                                for (int i = 0; i < filenames.Count; i++)
-                                {
-                                    using (FileStream file = File.Open(filenames[i], FileMode.Open))
-                                    {
-                                        file.Write(data[i], 0, data[i].Length);
-                                        file.Flush();
-                                        file.Close();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                for (int i = 0; i < filenames.Count; i++)
-                                {
-                                    File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i], true);
-                                }
-                            }
+                            RestoreFile();
                         (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
                             button1.Visible = true;
                             button6.Visible = true;
@@ -131,25 +133,7 @@ namespace AxonCorruptor
                                 }
                             }
                             button1.Visible = false;
-                            if (Properties.Settings.Default.DiskCache == false)
-                            {
-                                for (int i = 0; i < filenames.Count; i++)
-                                {
-                                    using (FileStream file = File.Open(filenames[i], FileMode.Open))
-                                    {
-                                        file.Write(data[i], 0, data[i].Length);
-                                        file.Flush();
-                                        file.Close();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                for (int i = 0; i < filenames.Count; i++)
-                                {
-                                    File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i], true);
-                                }
-                            }
+                            RestoreFile();
                             (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
                             button1.Visible = true;
                             button6.Visible = true;
@@ -168,26 +152,8 @@ namespace AxonCorruptor
                                 }
                             }
                             button1.Visible = false;
-                            if (Properties.Settings.Default.DiskCache == false)
-                            {
-                                for (int i = 0; i < filenames.Count; i++)
-                                {
-                                    using (FileStream file = File.Open(filenames[i], FileMode.Open))
-                                    {
-                                        file.Write(data[i], 0, data[i].Length);
-                                        file.Flush();
-                                        file.Close();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                for (int i = 0; i < filenames.Count; i++)
-                                {
-                                    File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i], true);
-                                }
-                            }
-                        (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                            RestoreFile();
+                            (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
                             button1.Visible = true;
                             button6.Visible = true;
                             button5.Visible = true;
@@ -322,25 +288,7 @@ namespace AxonCorruptor
         {
             try
             {
-                if (Properties.Settings.Default.DiskCache == false)
-                {
-                    for (int i = 0; i < filenames.Count; i++)
-                    {
-                        using (FileStream file = File.Open(filenames[i], FileMode.Open))
-                        {
-                            file.Write(data[i], 0, data[i].Length);
-                            file.Flush();
-                            file.Close();
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < filenames.Count; i++)
-                    {
-                        File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i],true);
-                    }
-                }
+                RestoreFile();
                 button6.Visible = false;
                 button5.Visible = false;
                 corrupted = false;
@@ -399,25 +347,7 @@ namespace AxonCorruptor
                 {
                     try
                     {
-                        if (Properties.Settings.Default.DiskCache == false)
-                        {
-                            for (int i = 0; i < filenames.Count; i++)
-                            {
-                                using (FileStream file = File.Open(filenames[i], FileMode.Open))
-                                {
-                                    file.Write(data[i], 0, data[i].Length);
-                                    file.Flush();
-                                    file.Close();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < filenames.Count; i++)
-                            {
-                                File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i], true);
-                            }
-                        }
+                        RestoreFile();
                         button6.Visible = false;
                         button5.Visible = false;
                         corrupted = false;
@@ -483,25 +413,7 @@ namespace AxonCorruptor
                 {
                     try
                     {
-                        if (Properties.Settings.Default.DiskCache == false)
-                        {
-                            for (int i = 0; i < filenames.Count; i++)
-                            {
-                                using (FileStream file = File.Open(filenames[i], FileMode.Open))
-                                {
-                                    file.Write(data[i], 0, data[i].Length);
-                                    file.Flush();
-                                    file.Close();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < filenames.Count; i++)
-                            {
-                                File.Copy(Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), filenames[i], true);
-                            }
-                        }
+                        RestoreFile();
                         button6.Visible = false;
                         button5.Visible = false;
                         corrupted = false;

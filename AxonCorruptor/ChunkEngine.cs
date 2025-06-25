@@ -48,14 +48,12 @@ namespace AxonCorruptor
                                     file.Read(buffer, 0, (int)numericUpDown1.Value);
                                     file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
                                     OverwriteBytesinFile(buffer, file);
-                                }
-                                file.Flush();
-                                file.Close();
-                              
+                                }                              
                             }
                         }
                         buffer = null;
                     }
+
                     else if (currentType == 1)
                     {
                         Int32 length = filenames.Count;
@@ -81,11 +79,7 @@ namespace AxonCorruptor
                                     Buffer.BlockCopy(buffer, 0, buffercombined, buffer1.Length, buffer.Length);
                                     OverwriteBytesinFile(buffercombined, file);
                                 }
-                                file.Flush();
-                                file.Close();
-
-                            }
-                           
+                            }                          
                         }
                         buffer = null;
                         buffer1 = null;

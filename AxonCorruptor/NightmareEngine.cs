@@ -99,8 +99,6 @@ namespace AxonCorruptor
                                 }
                                 buffer = null;
                             }
-                            file.Flush();
-                            file.Close();
                         }
                         
                     }

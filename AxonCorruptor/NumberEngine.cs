@@ -40,6 +40,7 @@ namespace AxonCorruptor
                         }
                         File.Delete(filenames[i]);
                         File.WriteAllText(filenames[i], content);
+                        content = null;
                     }
                 }
                 catch (Exception ex) 
