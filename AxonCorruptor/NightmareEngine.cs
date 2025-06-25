@@ -23,27 +23,7 @@ namespace AxonCorruptor
         private static readonly object syncLock = new object();
         private void NightmareEngine_Load(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.AllowFileSizeChange == true)
-            {
-                comboBox1.Items.Add("ADDRANDOM");
-                comboBox1.Items.Add("ADDTILT");
-                comboBox1.Items.Add("ADDRANDOMTILT");
-            }
-            else
-            {
-                if (comboBox1.Items.Contains("ADDRANDOM"))
-                {
-                    comboBox1.Items.Remove("ADDRANDOM");
-                }
-                if (comboBox1.Items.Contains("ADDTILT"))
-                {
-                    comboBox1.Items.Remove("ADDTILT");
-                }
-                if (comboBox1.Items.Contains("ADDRANDOMTILT"))
-                {
-                    comboBox1.Items.Remove("ADDRANDOMTILT");
-                }
-            }
+
         }
         public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
@@ -96,7 +76,6 @@ namespace AxonCorruptor
                                     }
                                     buffer = null;
                                 }
-
                             }
                             else if (currentType == 2)
                             {
