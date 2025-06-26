@@ -70,7 +70,7 @@ namespace AxonCorruptor
                                     buffer = new byte[(long)numericUpDown1.Value];
                                     buffer1 = new byte[(long)numericUpDown1.Value];
                                     buffercombined = new byte[(long)numericUpDown1.Value + (long)numericUpDown1.Value];
-                                    int oldvalue = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - ((long)numericUpDown1.Value + (long)numericUpDown1.Value));
+                                    int oldvalue = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - ((long)numericUpDown1.Value * 2);
                                     file.Position = oldvalue;
                                     file.Read(buffer, 0, (int)numericUpDown1.Value);
                                     file.Read(buffer1, 0, (int)numericUpDown1.Value);
