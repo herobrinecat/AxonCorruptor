@@ -31,17 +31,18 @@ namespace AxonCorruptor
                 try
                 {
                     Int32 length = filenames.Count();
+                    string content = string.Empty;
                     for (int i = 0; i < length; i++)
                     {
-                        string content = File.ReadAllText(filenames[i]);
+                        content = File.ReadAllText(filenames[i]);
                         for (int j = 0; j < intensity; j++)
                         {
                             content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
                         }
                         File.Delete(filenames[i]);
                         File.WriteAllText(filenames[i], content);
-                        content = null;
                     }
+                    content = null;
                 }
                 catch (Exception ex) 
                 {
