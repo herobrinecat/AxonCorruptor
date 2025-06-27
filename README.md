@@ -1,10 +1,10 @@
-# <img src="https://github.com/herobrinecat/AxonCorruptor/blob/main/axonicon.png?raw=true" alt="A logo of the Axon Corruptor" width="50" height="50"> AxonCorruptor
+# <img src="https://github.com/herobrinecat/AxonCorruptor/blob/main/axonicon.png?raw=true" alt="A logo of the Axon Corruptor" width="50" height="50"> Axon Corruptor
 
 A file corruptor that is open-source and made with .NET Framework!
 
 ## Introduction
 
-Axon Corruptor is a file corruptor that's purpose is to corrupt files... This application is open-source, so feel free to make pull requests! You could also clone it to change it to support other emulators/engines/features!
+Axon Corruptor is a file corruptor that's purpose is to corrupt files with engines, a different way to corrupt files! This application is open-source, so feel free to make pull requests! You could also clone it to change it to support other emulators/engines/features!
 
 ## Building
 
