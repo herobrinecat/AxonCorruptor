@@ -744,7 +744,14 @@ namespace AxonCorruptor
                             File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\" + stockpileloaded + @"\" + filepile + @"\" + Path.GetFileName(filenames[i]), true);
                         }
                         stockpileids.Add(filepile);
-                        listBox2.Items.Add(stockpilenames[stockpileids.Count - 1]);
+                        if (stockpilenames[stockpileids.Count - 1] == "{{id}}")
+                        {
+                            listBox2.Items.Add(filepile.ToString());
+                        }
+                        else
+                        {
+                            listBox2.Items.Add(stockpilenames[stockpileids.Count - 1]);
+                        }
                     }
                 }
                 else
