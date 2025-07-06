@@ -33,7 +33,14 @@ namespace AxonCorruptor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            frm1.stockpilenames.Add(textBox1.Text);
+            if (textBox1.Text != "")
+            {
+                frm1.stockpilenames.Add(textBox1.Text);
+            }
+            else
+            {
+                frm1.stockpilenames.Add("{{id}}");
+            }
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
