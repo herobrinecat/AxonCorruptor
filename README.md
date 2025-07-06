@@ -13,6 +13,10 @@ Building this application requires:
 * Visual Studio 2022 (or 2019, haven't tested yet)
 * .NET Framework 4.7.2
 
+
+## Downloads
+You can download the latest stable release in the Releases page, but if you want the latest features, use the Actions page to download from there. Axon Corruptor is also avaliable on itch.io, which follows the stable release pattern.
+
 ## System Requirements
 The application supports Windows 7 and above since it's made with .NET Framework 4.7.2, but Windows 7 has not been tested.
 
