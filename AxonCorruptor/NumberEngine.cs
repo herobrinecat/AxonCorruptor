@@ -42,17 +42,15 @@ namespace AxonCorruptor
                             if (foundindex != -1) 
                             {
                                 Console.WriteLine("Found the value at index " + foundindex);
-                                Debug.WriteLine("Found the value at index " + foundindex);
                                 int randomnumber2 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
                                 content = content.Remove(foundindex, randomnumber1.ToString()).Insert(foundindex,randomnumber2.ToString());
-                                randomnumber2 = null;
+                                randomnumber2 = 0;
                             }
                             else
                             {
                                 Console.WriteLine("No search for the value has been found, skipping...");
-                                Debug.WriteLine("No search for the value has been found, skipping...");
                             }
-                            randomnumber1 = null;
+                            randomnumber1 = 0;
                             // content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
                         }
                         File.Delete(filenames[i]);
