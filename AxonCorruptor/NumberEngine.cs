@@ -43,7 +43,7 @@ namespace AxonCorruptor
                             {
                                 Console.WriteLine("Found the value at index " + foundindex);
                                 Debug.WriteLine("Found the value at index " + foundindex);
-                                int randomnumber2 = RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value));
+                                int randomnumber2 = RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
                                 content = content.Remove(foundindex, randomnumber1.ToString()).Insert(foundindex,randomnumber2.ToString());
                                 randomnumber2 = null;
                             }
