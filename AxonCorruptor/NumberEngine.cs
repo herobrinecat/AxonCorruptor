@@ -37,7 +37,23 @@ namespace AxonCorruptor
                         content = File.ReadAllText(filenames[i]);
                         for (int j = 0; j < intensity; j++)
                         {
-                            content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
+                            int randomnumber1 = RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value));
+                            int foundindex = content.IndexOf(randomnumber1.ToString(),RandomNumber(0,content.Length - 1));
+                            if (foundindex != -1) 
+                            {
+                                Console.WriteLine("Found the value at index " + foundindex);
+                                Debug.WriteLine("Found the value at index " + foundindex);
+                                int randomnumber2 = RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value));
+                                content = content.Remove(foundindex, randomnumber1.ToString()).Insert(foundindex,randomnumber2.ToString());
+                                randomnumber2 = null;
+                            }
+                            else
+                            {
+                                Console.WriteLine("No search for the value has been found, skipping...");
+                                Debug.WriteLine("No search for the value has been found, skipping...");
+                            }
+                            randomnumber1 = null;
+                            // content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
                         }
                         File.Delete(filenames[i]);
                         File.WriteAllText(filenames[i], content);
