@@ -38,12 +38,12 @@ namespace AxonCorruptor
                         for (int j = 0; j < intensity; j++)
                         {
                             int randomnumber1 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
-                            int foundindex = content.IndexOf(randomnumber1.ToString(),RandomNumber(0,content.Length - 1), StringComparison.OrdinalIgnoreCase);
+                            int foundindex = content.IndexOf(randomnumber1.ToString(),(int)RandomNumber(0,content.Length - 1), StringComparison.OrdinalIgnoreCase);
                             if (foundindex != -1) 
                             {
                                 Console.WriteLine("Found the value at index " + foundindex);
                                 int randomnumber2 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
-                                content = content.Remove(foundindex, randomnumber1.ToString()).Insert(foundindex,randomnumber2.ToString());
+                                content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex,randomnumber2.ToString());
                                 randomnumber2 = 0;
                             }
                             else
