@@ -37,7 +37,7 @@ namespace AxonCorruptor
                         content = File.ReadAllText(filenames[i]);
                         for (int j = 0; j < intensity; j++)
                         {
-                            int randomnumber1 = RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value));
+                            int randomnumber1 = RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
                             int foundindex = content.IndexOf(randomnumber1.ToString(),RandomNumber(0,content.Length - 1));
                             if (foundindex != -1) 
                             {
