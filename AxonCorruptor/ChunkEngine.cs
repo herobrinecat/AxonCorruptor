@@ -47,7 +47,7 @@ namespace AxonCorruptor
                                     file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
                                     file.Read(buffer, 0, (int)numericUpDown1.Value);
                                     file.Position = (int)RandomNumber(0 + (long)numericUpDown3.Value, file.Length - (long)numericUpDown1.Value);
-                                    OverwriteBytesinFile(buffer, file);
+                                    FileUtils.OverwriteBytesinFile(buffer, file);
                                 }                              
                             }
                         }
@@ -77,7 +77,7 @@ namespace AxonCorruptor
                                     file.Position = oldvalue;
                                     Buffer.BlockCopy(buffer1, 0, buffercombined, 0, buffer1.Length);
                                     Buffer.BlockCopy(buffer, 0, buffercombined, buffer1.Length, buffer.Length);
-                                    OverwriteBytesinFile(buffercombined, file);
+                                    FileUtils.OverwriteBytesinFile(buffercombined, file);
                                 }
                             }                          
                         }
@@ -115,13 +115,6 @@ namespace AxonCorruptor
                 result = (result << 32);
                 result = result | (long)random.Next((Int32)min, (Int32)max);
                 return result;
-            }
-        }
-        public void OverwriteBytesinFile(byte[] buffer, FileStream stream)
-        {
-            for (int i = 0; i < buffer.Length; i++) 
-            {
-                stream.WriteByte(buffer[i]);
             }
         }
     }

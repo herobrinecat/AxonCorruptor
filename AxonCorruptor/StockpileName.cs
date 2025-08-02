@@ -44,5 +44,27 @@ namespace AxonCorruptor
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (textBox1.Text.Trim() != "")
+                {
+                    frm1.stockpilenames.Add(textBox1.Text);
+                }
+                else
+                {
+                    frm1.stockpilenames.Add("{{id}}");
+                }
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else if (e.KeyCode == Keys.Escape) 
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
+        }
     }
 }
