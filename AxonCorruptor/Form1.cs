@@ -334,19 +334,22 @@ namespace AxonCorruptor
 
         private void button5_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < filenames.Count(); i++)
+           if (MessageBox.Show("Are you sure in bake? Once you press Yes, it would be irreversible and permanent", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (Properties.Settings.Default.DiskCache == false)
+                for (int i = 0; i < filenames.Count(); i++)
                 {
-                    data[i] = File.ReadAllBytes(filenames[i]);
+                    if (Properties.Settings.Default.DiskCache == false)
+                    {
+                        data[i] = File.ReadAllBytes(filenames[i]);
+                    }
+                    else
+                    {
+                        File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), true);
+                    }
+                    button6.Visible = false;
+                    button5.Visible = false;
+                    corrupted = false;
                 }
-                else
-                {
-                    File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), true);
-                }
-                button6.Visible = false;
-                button5.Visible = false;
-                corrupted = false;
             }
         }
 
