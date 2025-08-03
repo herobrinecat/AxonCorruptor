@@ -30,6 +30,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
+          retention-days: 999999
           name: result
           path: |
               AxonCorruptor/bin/x64/Release
