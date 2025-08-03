@@ -105,76 +105,41 @@ namespace AxonCorruptor
                     {
                         if (EngineForm.Controls[0] is NightmareEngine)
                         {
-                            List<string> selecteddata = new List<string>();
-                            for (int i = 0; i < listBox1.Items.Count; i++)
-                            {
-                                if (listBox1.GetSelected(i) == true)
-                                {
-                                    selecteddata.Add(filenames[i]);
-                                }
-                            }
                             button1.Visible = false;
                             RestoreFile();
-                        (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                        (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, listBox1.SelectedItems.Cast<String>().ToList());
                             button1.Visible = true;
                             button6.Visible = true;
                             button5.Visible = true;
                             corrupted = true;
-                            selecteddata.Clear();
                         }
                         else if (EngineForm.Controls[0] is NumberEngine)
                         {
-                            List<string> selecteddata = new List<string>();
-                            for (int i = 0; i < listBox1.Items.Count; i++)
-                            {
-                                if (listBox1.GetSelected(i) == true)
-                                {
-                                    selecteddata.Add(filenames[i]);
-                                }
-                            }
                             button1.Visible = false;
                             RestoreFile();
-                            (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                            (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, listBox1.SelectedItems.Cast<String>().ToList());
                             button1.Visible = true;
                             button6.Visible = true;
                             button5.Visible = true;
                             corrupted = true;
-                            selecteddata.Clear();
                         }
                         else if (EngineForm.Controls[0] is ChunkEngine)
                         {
-                            List<string> selecteddata = new List<string>();
-                            for (int i = 0; i < listBox1.Items.Count; i++)
-                            {
-                                if (listBox1.GetSelected(i) == true)
-                                {
-                                    selecteddata.Add(filenames[i]);
-                                }
-                            }
                             button1.Visible = false;
                             RestoreFile();
-                            (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata);
+                            (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, listBox1.SelectedItems.Cast<String>().ToList());
                             button1.Visible = true;
                             button6.Visible = true;
                             button5.Visible = true;
                             corrupted = true;
-                            selecteddata.Clear();
                         }
                     }
                     else
                     {
                         if (EngineForm.Controls[0] is NightmareEngine)
                         {
-                            List<string> selecteddata = new List<string>();
-                            for (int i = 0; i < listBox1.Items.Count; i++)
-                            {
-                                if (listBox1.GetSelected(i) == true)
-                                {
-                                    selecteddata.Add(filenames[i]);
-                                }
-                            }
                             button1.Visible = false;
-                            (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, selecteddata, this);
+                            (EngineForm.Controls[0] as NightmareEngine).Corrupt((int)numericUpDown1.Value, listBox1.SelectedItems.Cast<String>().ToList(), this);
                             button1.Visible = true;
                             if (error == false)
                             {
@@ -183,20 +148,11 @@ namespace AxonCorruptor
                                 corrupted = true;
                             }
                             error = false;
-                            selecteddata.Clear();
                         }
                         else if (EngineForm.Controls[0] is NumberEngine)
                         {
-                            List<string> selecteddata = new List<string>();
-                            for (int i = 0; i < listBox1.Items.Count; i++)
-                            {
-                                if (listBox1.GetSelected(i) == true)
-                                {
-                                    selecteddata.Add(filenames[i]);
-                                }
-                            }
                             button1.Visible = false;
-                            (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, selecteddata, this);
+                            (EngineForm.Controls[0] as NumberEngine).Corrupt((int)numericUpDown1.Value, listBox1.SelectedItems.Cast<String>().ToList(), this);
                             button1.Visible = true;
                             if (error == false)
                             {
@@ -205,20 +161,11 @@ namespace AxonCorruptor
                                 corrupted = true;
                             }
                             error = false;
-                            selecteddata.Clear();
                         }
                         else if (EngineForm.Controls[0] is ChunkEngine)
-                        {
-                            List<string> selecteddata = new List<string>();
-                            for (int i = 0; i < listBox1.Items.Count; i++)
-                            {
-                                if (listBox1.GetSelected(i) == true)
-                                {
-                                    selecteddata.Add(filenames[i]);
-                                }
-                            }
+                        {                 
                             button1.Visible = false;
-                            (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, selecteddata, this);
+                            (EngineForm.Controls[0] as ChunkEngine).Corrupt((int)numericUpDown1.Value, listBox1.SelectedItems.Cast<String>().ToList(), this);
                             button1.Visible = true;
                             if (error == false)
                             {
@@ -227,7 +174,6 @@ namespace AxonCorruptor
                                 corrupted = true;
                             }
                             error = false;
-                            selecteddata.Clear();
                         }
                     }
                 }
@@ -303,7 +249,6 @@ namespace AxonCorruptor
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK) 
             {
-                int listboxcount = listBox1.Items.Count;
                 for (int i = 0; i < openFileDialog1.FileNames.Count(); i++) 
                 {
                     button7.Visible = true;
@@ -317,8 +262,8 @@ namespace AxonCorruptor
                         if (Directory.Exists(Path.GetTempPath() + @"AxonTemp\DiskCache") == false) Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\DiskCache");
                         File.Copy(openFileDialog1.FileNames[i], Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(openFileDialog1.FileNames[i]),true);
                     }
-                        filenames.Add(openFileDialog1.FileNames[i]);
-                    listBox1.SetSelected(i + listboxcount, true);
+                    filenames.Add(openFileDialog1.FileNames[i]);
+                    listBox1.SetSelected(listBox1.Items.Count - 1, true);
                 }
             }
         }
@@ -457,7 +402,6 @@ namespace AxonCorruptor
         private void listBox1_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            int listboxcount = listBox1.Items.Count;
             for (int i = 0; i < files.Length; i++)
             {
                 
@@ -473,7 +417,7 @@ namespace AxonCorruptor
                     File.Copy(files[i], Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(files[i]), true);
                 }
                 filenames.Add(files[i]);
-                listBox1.SetSelected(i + listboxcount, true);
+                listBox1.SetSelected(listBox1.Items.Count - 1, true);
             }
 
         }
@@ -648,6 +592,8 @@ namespace AxonCorruptor
 
                             }
                             listBox2.Items.Clear();
+                            stockpilenames.Clear();
+                            stockpileids.Clear();
                             File.Copy(openFileDialog2.FileName, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(openFileDialog2.FileName), true);
                             File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName) + ".zip");
                             Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
@@ -960,6 +906,8 @@ namespace AxonCorruptor
                                 {
                                     Directory.Delete(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(filename).Replace(".zip", ""), true);
                                     File.Delete(filename);
+                                    stockpilenames.Clear();
+                                    stockpileids.Clear();
                                     listBox2.Items.Clear();
                                     File.Copy(file, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(file), true);
                                     File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip");
@@ -1005,6 +953,8 @@ namespace AxonCorruptor
                                 Directory.Delete(directory, true);
                             }
                             listBox2.Items.Clear();
+                            stockpilenames.Clear();
+                            stockpileids.Clear();
                             File.Copy(file, Path.GetTempPath() + @"AxonTemp\" + Path.GetFileName(file), true);
                             File.Move(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".asp", Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file) + ".zip");
                             Directory.CreateDirectory(Path.GetTempPath() + @"AxonTemp\" + Path.GetFileNameWithoutExtension(file));
