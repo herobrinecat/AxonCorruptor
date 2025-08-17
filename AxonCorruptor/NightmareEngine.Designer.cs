@@ -188,7 +188,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "NightmareEngine";
-            this.Load += new System.EventHandler(this.NightmareEngine_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();

@@ -20,12 +20,11 @@ namespace AxonCorruptor
         }
         private static readonly object syncLock = new object();
         private static readonly Random random = new Random();
-        private void NumberEngine_Load(object sender, EventArgs e)
-        {
 
-        }
         public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
+            int currentType = 0;
+            currentType = comboBox1.SelectedIndex;
             Thread thread = new Thread(() =>
             {
                 try
@@ -35,16 +34,79 @@ namespace AxonCorruptor
                     for (int i = 0; i < length; i++)
                     {
                         content = File.ReadAllText(filenames[i]);
-                        for (int j = 0; j < intensity; j++)
+                        if (currentType == 0)
+                        {
+                            for (int j = 0; j < intensity; j++)
+                            {
+                                int randomnumber1 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+                                int foundindex = content.IndexOf(randomnumber1.ToString(), (int)RandomNumber((int)Math.Round(numericUpDown3.Value, 0), content.Length - 1), StringComparison.OrdinalIgnoreCase);
+                                if (foundindex != -1)
+                                {
+                                    Console.WriteLine("Found the value at index " + foundindex);
+                                    int randomnumber2 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+                                    content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex, randomnumber2.ToString());
+                                    randomnumber2 = 0;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No search for the value has been found, skipping...");
+                                }
+                                randomnumber1 = 0;
+                                // content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
+                            }
+                        }
+                        else if (currentType == 1)
+                        {
+                            for (int j = 0; j < intensity; j++)
+                            {
+                                int randomnumber1 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+                                int foundindex = content.IndexOf(randomnumber1.ToString(), (int)RandomNumber((int)Math.Round(numericUpDown3.Value, 0), content.Length - 1), StringComparison.OrdinalIgnoreCase);
+                                if (foundindex != -1)
+                                {
+                                    if (RandomNumber(0, 1) == 0)
+                                    {
+                                        Console.WriteLine("Found the value at index " + foundindex);
+                                        int randomnumber2 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+                                        content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex, randomnumber2.ToString());
+                                        randomnumber2 = 0;
+                                    }
+                                    else
+                                    {
+                                        if (RandomNumber(0,1) == 0)
+                                {
+                                    content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex, (randomnumber1 + 1).ToString());
+                                }
+                                else
+                                {
+                                    content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex, (randomnumber1 - 1).ToString());
+                                }
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No search for the value has been found, skipping...");
+                                }
+                                randomnumber1 = 0;
+                                // content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
+                            }
+                        }
+                        else if (currentType == 2)
+                        {
+                            for (int j = 0; j < intensity; j++)
                         {
                             int randomnumber1 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
-                            int foundindex = content.IndexOf(randomnumber1.ToString(),(int)RandomNumber(0,content.Length - 1), StringComparison.OrdinalIgnoreCase);
+                            int foundindex = content.IndexOf(randomnumber1.ToString(),(int)RandomNumber((int)Math.Round(numericUpDown3.Value,0),content.Length - 1), StringComparison.OrdinalIgnoreCase);
                             if (foundindex != -1) 
                             {
                                 Console.WriteLine("Found the value at index " + foundindex);
-                                int randomnumber2 = (int)RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value);
-                                content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex,randomnumber2.ToString());
-                                randomnumber2 = 0;
+                                if (RandomNumber(0,1) == 0)
+                                {
+                                    content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex, (randomnumber1 + 1).ToString());
+                                }
+                                else
+                                {
+                                    content = content.Remove(foundindex, randomnumber1.ToString().Length).Insert(foundindex, (randomnumber1 - 1).ToString());
+                                }
                             }
                             else
                             {
@@ -53,7 +115,8 @@ namespace AxonCorruptor
                             randomnumber1 = 0;
                             // content = content.Replace(RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString(), RandomNumber((int)numericUpDown1.Value, (int)numericUpDown2.Value).ToString());
                         }
-                        File.Delete(filenames[i]);
+                        }
+                            File.Delete(filenames[i]);
                         File.WriteAllText(filenames[i], content);
                     }
                     content = null;

@@ -21,10 +21,7 @@ namespace AxonCorruptor
         }
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
-        private void NightmareEngine_Load(object sender, EventArgs e)
-        {
-             
-        }
+
         public void Corrupt(int intensity, List<string> filenames, Form1 main = null)
         {
             int currentType = 0;
@@ -135,6 +132,6 @@ namespace AxonCorruptor
                 return result;
             }
         }
-      
+
     }
 }

@@ -19,13 +19,13 @@ namespace AxonCorruptor
             InitializeComponent();
         }
 
-        List<byte[]> data = new List<byte[]>();
-        List<string> filenames = new List<string>();
-        List<int> stockpileids = new List<int>();
-        public List<string> stockpilenames = new List<string>();
+        readonly List<byte[]> data = new List<byte[]>();
+        readonly List<string> filenames = new List<string>();
+        readonly List<int> stockpileids = new List<int>();
+        readonly public List<string> stockpilenames = new List<string>();
         bool corrupted = false;
         private static readonly object syncLock = new object();
-        Random random = new Random();
+        readonly Random random = new Random();
         public bool error = false;
         string stockpileloaded = "0";
        
@@ -34,7 +34,6 @@ namespace AxonCorruptor
         {
             stockpileloaded = RandomNumber(0, 2147483646).ToString();
             saveFileDialog1.FileName = stockpileloaded.ToString();
-            listBox1.AllowDrop = true;
             if (Properties.Settings.Default.WarningRead == false)
             {
                 new Warning().ShowDialog();
@@ -44,11 +43,6 @@ namespace AxonCorruptor
             EngineForm.Controls.Add(nightmareEngine);
 
             nightmareEngine.Show();
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
 
         }
 
@@ -336,20 +330,20 @@ namespace AxonCorruptor
         {
            if (MessageBox.Show("Are you sure in bake? Once you press Yes, it would be irreversible and permanent", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                for (int i = 0; i < filenames.Count(); i++)
+                 for (int i = 0; i < filenames.Count(); i++)
+            {
+                if (Properties.Settings.Default.DiskCache == false)
                 {
-                    if (Properties.Settings.Default.DiskCache == false)
-                    {
-                        data[i] = File.ReadAllBytes(filenames[i]);
-                    }
-                    else
-                    {
-                        File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), true);
-                    }
-                    button6.Visible = false;
-                    button5.Visible = false;
-                    corrupted = false;
+                    data[i] = File.ReadAllBytes(filenames[i]);
                 }
+                else
+                {
+                    File.Copy(filenames[i], Path.GetTempPath() + @"AxonTemp\DiskCache\" + Path.GetFileName(filenames[i]), true);
+                }
+                button6.Visible = false;
+                button5.Visible = false;
+                corrupted = false;
+            }
             }
         }
 
