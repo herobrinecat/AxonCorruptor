@@ -28,7 +28,7 @@ jobs:
       run: msbuild AxonCorruptor.sln -t:rebuild -property:Configuration=Release -property:Platform=x64 -property:Optimize=true
       
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
           name: result
           path: |
